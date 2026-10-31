@@ -1,4 +1,4 @@
-# Global B2B Procurement & Demand Intelligence
+# Industrial Parts Demand and Customer Reordering
 
 个人商业分析作品集项目，使用匿名化工业零部件采购数据，探索订单结构、客户复购和物料需求。项目目前处于数据审计阶段。
 
