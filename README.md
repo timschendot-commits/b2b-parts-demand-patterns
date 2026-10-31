@@ -1,6 +1,6 @@
 # Industrial Parts Demand and Customer Reordering
 
-个人商业分析作品集项目，使用匿名化工业零部件采购数据，探索订单结构、客户复购和物料需求。项目目前处于数据审计阶段。
+个人商业分析作品集项目，使用匿名化工业零部件采购数据，探索订单结构、客户复购和物料需求。项目目前完成了数据审计和第一组 SQL 分析。
 
 ## 数据来源
 
@@ -15,6 +15,8 @@
 - 详细检查见 [数据审计](docs/data-audit.md)。
 
 第一版商业分析采用全部 238 个客户。作者的 219 个客户口径用于对照，因为至少 3 行的筛选是为推荐系统训练、验证和测试划分准备的。
+
+初步复购分析发现，73,020 个客户与物料组合中，有 34,664 个在之后的匿名日期再次出现，占 47.47%。这个指标按不同日期计算，避免将同一订单内的重复行当作再次采购。详见 [`sql/02_customer_reorders.sql`](sql/02_customer_reorders.sql)。
 
 ## 计划
 
@@ -32,6 +34,7 @@
 ```sh
 node scripts/build_database.mjs data/raw data/b2b.sqlite
 node scripts/run_checks.mjs data/b2b.sqlite
+node scripts/run_checks.mjs data/b2b.sqlite sql/02_customer_reorders.sql
 ```
 
 这会在本地创建只包含分析字段的数据库，并运行 [`sql/01_check_grain.sql`](sql/01_check_grain.sql)。`data/` 已被 Git 忽略。完整的 14 列原始 CSV 不会被修改。
