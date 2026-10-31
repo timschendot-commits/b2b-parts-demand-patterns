@@ -1,0 +1,13 @@
+# Local source data and intermediate analysis files
+data/
+*.csv
+*.parquet
+*.db
+*.sqlite
+*.sqlite3
+
+# Local tools
+.venv/
+node_modules/
+__pycache__/
+.DS_Store
