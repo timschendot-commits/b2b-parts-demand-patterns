@@ -1,4 +1,4 @@
-# Global B2B Procurement & Demand Intelligence
+# Industrial Parts Demand and Customer Reordering
 
 数据审计日期：2026 年 10 月 31 日
 
