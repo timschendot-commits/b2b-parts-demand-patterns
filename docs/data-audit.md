@@ -26,6 +26,8 @@
 
 Zenodo 简介称 285,919 个订单、219 家客户。直接审计六份文件得到 285,941 行、24,532 个订单 ID、238 个客户 ID。[作者的预处理脚本](https://github.com/Infraste03/B2B-Parts-Rec/blob/main/create_splits.py)按每个客户至少 3 行筛选。原始文件中有 16 个客户各 1 行、3 个客户各 2 行，剔除这 22 行后，恰好是 285,919 行、219 个客户。因此简介中的“订单”很可能指筛选后的明细行，不能用于 `ORDER_ID` 的不同值计数。全部 24,532 个订单 ID 只对应一个客户和一个日期，其中 15,085 个订单 ID 对应多个物料 ID，说明数据适合从订单和订单明细两个层次建模。字段定义见[作者仓库的数据字典](https://github.com/Infraste03/B2B-Parts-Rec)。
 
+第一版商业分析保留全部 238 个客户。219 个客户的筛选口径仅用于与作者的推荐系统实验对照。初版订单 KPI 使用 `COUNT(DISTINCT ORDER_ID)`，明细行 KPI 使用 `COUNT(*)`，两者分别标注。
+
 ## 字段与能回答的问题
 
 主要字段有 `ORDER_ID`、`CUSTOMER_ID`、`REQUEST_DATE`、`ITEM_ID`、`PROJECT_ID`、`LINE_ID`、`MACHINE_ID`、`PRODUCT_MODEL_ID`、`LOCATION` 和 `PRICE_EXACT`。另有四列描述向量，它们是编码后的数字数组，无法直接作为人类可读的物料名称或机器名称。
