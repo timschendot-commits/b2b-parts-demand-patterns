@@ -14,7 +14,8 @@ const queries = sql.split(';').map(part => part.trim()).filter(Boolean);
 
 try {
   for (const query of queries) {
-    console.log(JSON.stringify(database.prepare(query).get(), null, 2));
+    const rows = database.prepare(query).all();
+    console.log(JSON.stringify(rows.length === 1 ? rows[0] : rows, null, 2));
   }
 } finally {
   database.close();

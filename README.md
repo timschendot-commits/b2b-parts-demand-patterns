@@ -1,58 +1,40 @@
-# Industrial Parts Demand and Customer Reordering
+# B2B Parts Demand Patterns
 
-个人商业分析作品集项目，使用匿名化工业零部件采购数据，探索订单结构、客户再次请求同一物料的行为和物料需求。项目目前完成了数据审计、SQL 分析和四页 Power BI 报表。
+用公开的匿名工业零部件采购数据，研究**订单由谁产生、物料需求有多分散、哪些客户会再次请求同一物料**。这是一个可复现的商业分析作品集项目：从原始文件校验、数据审计、SQL 汇总到四页 Power BI 报表，均有明确的数据口径。
 
-## 数据来源
+## 核心发现
 
-数据来自 Francesca Stefano、Francesco Zanichelli 和 Dietmar Jannach 发布的 [B2B-Parts-Rec v1](https://zenodo.org/records/19492687)，DOI 为 [10.5281/zenodo.19492687](https://doi.org/10.5281/zenodo.19492687)。Zenodo 记录的许可元数据标为 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。六份 CSV 可从原始记录下载。
+| 观察 | 已核对的结果 | 应怎样理解 |
+| --- | ---: | --- |
+| 客户集中度 | 前 10 位客户占 58.96% 的不同订单 | 对少数客户的订单依赖较高；这不是营收占比 |
+| 物料分散度 | 前 10 个物料只占 2.52% 的不同订单—物料组合 | 请求分散在许多匿名物料编码上；这不是采购件数 |
+| 同一物料再次出现 | 47.47% 的客户—物料组合出现在至少两个不同匿名日期 | 按组合汇总的比例；不是客户留存率 |
+| 客户之间的差异 | 全部客户的客户比例中位数为 20.92%；至少 10 单客户为 40.37% | 典型客户与合计比例不同；分组差异不能解释成因果关系 |
 
-## 当前发现
+完整解释、适用范围和可执行的后续业务问题见[项目结论](docs/final-report.md)。
 
-- 六份 CSV 共 285,941 行，包含 24,532 个不同订单 ID、238 个客户 ID。
-- 作者的[预处理脚本](https://github.com/Infraste03/B2B-Parts-Rec/blob/main/create_splits.py)只保留至少有 3 行记录的客户。按该规则筛选后正好是 285,919 行、219 个客户。原始数据的 24,532 个不同 `ORDER_ID` 才适合称为订单数。
-- `PRICE_EXACT` 是单价。数据没有采购数量、订单金额或货币字段，因此不会将单价求和当作采购额。
-- 日期经过匿名化平移，图表中的年份只表示数据集的匿名时间轴。
-- 详细检查见 [数据审计](docs/data-audit.md)。
+## 查看成果
 
-第一版商业分析采用全部 238 个客户。作者的 219 个客户口径用于对照，因为至少 3 行的筛选是为推荐系统训练、验证和测试划分准备的。
+- [四页 Power BI 报表](powerbi/B2B_Parts_Demand_Overview.pbix)：需求总览、需求集中度、再次请求同一物料、客户之间的差异。报表是已导入汇总数据的快照，不是实时数据流。
+- [指标字典](docs/kpi-dictionary.md)：逐项列出分子、分母、数据粒度和不能做的推断。
+- [数据审计](docs/data-audit.md)与[重复行核对](docs/duplicate-audit.md)：交代来源、字段、缺失、匿名时间和口径差异。
+- [面试说明](docs/interview-brief.md)：可以向招聘方准确介绍项目及 AI 的协助范围。
+- [复现与刷新说明](docs/reproduce.md)：从 Zenodo 校验原始文件，到重建汇总数据和刷新 PBIX。
 
-初步复购分析发现，73,020 个客户与物料组合中，有 34,664 个在之后的匿名日期再次出现，占 47.47%。这个指标按不同日期计算，避免将同一订单内的重复行当作再次采购。详见 [`sql/02_customer_reorders.sql`](sql/02_customer_reorders.sql)。
+## 一条命令重建数据
 
-需求集中度分析发现：第一位客户贡献 19.58% 的不同订单，前 10 位客户合计贡献 58.96%；前 10 个物料编码占不同订单—物料组合的 2.52%。这些比例的分母不同，详见[集中度分析与口径](docs/demand-concentration.md)。
-
-数据质量复核发现 44,781 个完全相同的额外明细行，涉及 2,395 个订单。由于缺少数量和唯一明细 ID，项目保留原始行，并让核心指标按不同订单、不同客户—物料组合或不同日期计算。详见[重复行核对](docs/duplicate-audit.md)。
-
-## Power BI 报表
-
-打开 [`powerbi/B2B_Parts_Demand_Overview.pbix`](powerbi/B2B_Parts_Demand_Overview.pbix)。第一页“需求总览”展示四个核心指标、72 个月的订单趋势和 13 个地区的订单分布；第二页“需求集中度”展示客户与物料出现频次的前三项占比及前十名排名；第三页“再次请求同一物料”展示客户—物料组合的重复出现和按客户订单数分组的结果；第四页“客户之间的差异”展示每位客户的再次出现占比及客户中位数。每页均注明数据口径。报表只载入汇总表，没有载入原始 CSV 明细。
-
-这里的“再次出现占比”是 **客户与物料组合** 在至少两个不同的匿名日期出现的比例，不是客户留存率。地区图的“订单数”按地区分别去重；月度图按匿名月份分别去重。由于缺少数量与订单金额，本报表不展示采购量、销售额或采购额。
-
-这是导入数据后的快照，并非实时数据流。若源 CSV 发生变化，先重新建立本地 SQLite 数据库，再导出汇总 CSV，最后在 Power BI Desktop 点击“刷新”：
+需要 Node.js 24 或更新版本。在仓库根目录运行：
 
 ```sh
-node scripts/build_database.mjs data/raw data/b2b.sqlite
-node scripts/export_powerbi_data.mjs data/b2b.sqlite data/reporting
+node scripts/rebuild_project.mjs
 ```
 
-导出脚本运行 [`sql/03_powerbi_views.sql`](sql/03_powerbi_views.sql)、[`sql/04_demand_views.sql`](sql/04_demand_views.sql)、[`sql/05_reorder_views.sql`](sql/05_reorder_views.sql) 和 [`sql/06_customer_distribution.sql`](sql/06_customer_distribution.sql)。报表使用 `overview.csv`、`monthly.csv`、`region.csv`、`concentration.csv`、`item_demand.csv`、`top_customers.csv`、`reorder_summary.csv`、`reorder_order_bands.csv`、`customer_repeat_spread.csv`、`customer_repeat_cards.csv` 和 `customer_repeat_histogram.csv`；脚本还导出完整客户再购表和地区再购表供进一步分析。若在另一台电脑刷新，先将 Power BI 的 CSV 来源路径改为那台电脑的 `data/reporting/`。本地数据库及 CSV 已被 Git 忽略。
+首次运行从固定的 [Zenodo v1 记录](https://zenodo.org/records/19492687)下载六份 CSV（共约 193.5 MB），逐份核对大小和 MD5，然后建立本地 SQLite 数据库、导出 13 份 Power BI 汇总 CSV，并检查关键指标。若原始文件已经保存在 `data/raw/`，可运行 `node scripts/rebuild_project.mjs --no-download`。详细步骤见[复现与刷新说明](docs/reproduce.md)。
 
-## 下一步
+`data/`、数据库和所有 CSV 都被 Git 忽略；**本仓库不包含原始 CSV**。PBIX 中保存的是报表所需的已导入数据。换一台电脑刷新时，需要在 Power Query 中把 CSV 来源重新指向该电脑的 `data/reporting/`。
 
-1. 进一步核实完全相同行的业务含义；在得到来源说明前，继续保留原始行和来源位置。
-2. 根据[客户差异分析](docs/customer-differences.md)，进一步检查订单数与观察期对客户指标的影响；这些分组仅用于描述，不作因果解释。
-3. 用[面试介绍与常见追问](docs/interview-brief.md)说明项目问题、结果和局限；不要把出现频次说成采购数量或金额。
+## 数据与许可
 
-原始 CSV 保存在本地分析环境中。本仓库通过 Zenodo 链接提供数据来源。
+数据来源：Francesca Stefano、Francesco Zanichelli、Dietmar Jannach，[B2B-Parts-Rec v1](https://zenodo.org/records/19492687)，DOI [10.5281/zenodo.19492687](https://doi.org/10.5281/zenodo.19492687)。Zenodo 记录的许可元数据为 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)；作者的[数据字典与研究代码](https://github.com/Infraste03/B2B-Parts-Rec)另在 GitHub 提供。本项目从 Zenodo 原始 CSV 生成本地汇总，未公开再分发六份原始文件。
 
-## 运行第一组 SQL 检查
-
-使用 Node.js 24 或更新版本。将从 Zenodo 下载的六份 CSV 放入本地 `data/raw/`，再在项目根目录运行：
-
-```sh
-node scripts/build_database.mjs data/raw data/b2b.sqlite
-node scripts/run_checks.mjs data/b2b.sqlite
-node scripts/run_checks.mjs data/b2b.sqlite sql/02_customer_reorders.sql
-```
-
-这会在本地创建只包含分析字段的数据库，并运行 [`sql/01_check_grain.sql`](sql/01_check_grain.sql)。`data/` 已被 Git 忽略。完整的 14 列原始 CSV 不会被修改。
+数据没有采购数量、订单金额、货币、交付、库存和供应商字段；`PRICE_EXACT` 是单价。请求日期经过匿名化平移，因此图上的年份是**匿名时间轴**，不能直接与真实年份的市场事件对应。详见[项目结论](docs/final-report.md)。
