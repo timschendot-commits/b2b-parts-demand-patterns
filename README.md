@@ -1,5 +1,11 @@
 # B2B Parts Demand Patterns
 
+An AI-assisted, reproducible Power BI portfolio project based on the anonymized [B2B-Parts-Rec v1](https://zenodo.org/records/19492687) dataset. It examines customer concentration, item-request frequency, and repeated requests for the same item. The four-page report uses distinct orders and customer–item pairs rather than treating CSV rows as orders or quantities.
+
+**At a glance:** The top 10 customers account for 58.96% of distinct orders, while the top 10 items account for just 2.52% of distinct order–item appearances. Overall, 47.47% of customer–item pairs appear on at least two different anonymized dates; the median customer-level share is 20.92%. These are descriptive patterns, not revenue, retention, or inventory measures. See the [English project summary](docs/final-report.en.md), [Power BI report](powerbi/B2B_Parts_Demand_Overview.pbix), and [interview brief](docs/interview-brief.md).
+
+## 中文说明
+
 用公开的匿名工业零部件采购数据，研究**订单由谁产生、物料需求有多分散、哪些客户会再次请求同一物料**。这是一个可复现的商业分析作品集项目：从原始文件校验、数据审计、SQL 汇总到四页 Power BI 报表，均有明确的数据口径。
 
 ## 核心发现
@@ -19,6 +25,7 @@
 - [指标字典](docs/kpi-dictionary.md)：逐项列出分子、分母、数据粒度和不能做的推断。
 - [数据审计](docs/data-audit.md)与[重复行核对](docs/duplicate-audit.md)：交代来源、字段、缺失、匿名时间和口径差异。
 - [面试说明](docs/interview-brief.md)：可以向招聘方准确介绍项目及 AI 的协助范围。
+- [英文项目摘要](docs/final-report.en.md)与[中英双语报表文案](docs/dashboard-bilingual-copy.md)：用于英文或双语面试展示。
 - [复现与刷新说明](docs/reproduce.md)：从 Zenodo 校验原始文件，到重建汇总数据和刷新 PBIX。
 
 ## 一条命令重建数据

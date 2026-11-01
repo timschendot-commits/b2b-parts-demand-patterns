@@ -1,5 +1,21 @@
 # 向招聘方介绍这个项目
 
+## English interview pitch (about 45 seconds)
+
+I used an anonymized industrial-parts dataset to build a reproducible B2B demand analysis in SQL and Power BI. The first step was checking the unit of analysis: the six CSVs contain 285,941 source rows, but only 24,532 distinct order IDs. The report then examines customer concentration, item-request frequency, and repeated requests for the same item. One result is that 47.47% of customer–item pairs appear on at least two different anonymized dates. The median customer-level share is only 20.92%, so the overall figure does not describe a typical customer. I used AI to help implement the pipeline and report, and documented the definitions, checks, and limitations. The dataset has no quantities or order values, so I do not present these frequencies as purchase volume or revenue.
+
+### Short answers to likely follow-up questions
+
+**Why are there fewer orders than rows?** A single order can have multiple source lines. The project counts 24,532 distinct `ORDER_ID` values, rather than treating 285,941 rows as orders.
+
+**Is 47.47% a retention rate?** No. It is the share of distinct customer–item pairs observed on at least two different anonymized request dates: 34,664 out of 73,020 pairs.
+
+**Why is the median customer-level share 20.92%?** The overall 47.47% pools all pairs, giving more weight to customers with many item pairs. The median first calculates a share for each of the 238 customers and then finds the midpoint.
+
+**Can this report recommend inventory levels?** No. The dataset lacks quantities, inventory, lead times, and suppliers. It identifies patterns worth investigating with operational data.
+
+## 中文面试说明
+
 ## 约 45 秒的说明
 
 这是我用公开的匿名工业零部件数据做的 B2B 需求分析作品集项目。数据有六份年度 CSV。项目先核对了数据粒度：285,941 是原始明细行，真正不同的订单 ID 有 24,532 个，因此分析中把订单数和明细行数分开计算。之后用 SQL 生成汇总数据，在 Power BI 中做了需求总览、需求集中度、客户再次请求同一物料和客户差异四页报表。一个发现是：73,020 个客户—物料组合中，47.47% 在至少两个不同的匿名日期出现；按客户分别计算，238 位客户的中位数是 20.92%，说明总体比例不能代表典型客户。这个指标不能当作客户留存率。我借助 AI 完成实现，并把指标定义、核对结果和局限整理成可复核的文档：日期经过平移，也没有采购数量或订单金额，所以没有把出现频次说成销售额或采购量。
