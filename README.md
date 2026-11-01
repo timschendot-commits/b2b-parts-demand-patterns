@@ -1,6 +1,6 @@
 # Industrial Parts Demand and Customer Reordering
 
-个人商业分析作品集项目，使用匿名化工业零部件采购数据，探索订单结构、客户再次请求同一物料的行为和物料需求。项目目前完成了数据审计、SQL 分析和三页 Power BI 报表。
+个人商业分析作品集项目，使用匿名化工业零部件采购数据，探索订单结构、客户再次请求同一物料的行为和物料需求。项目目前完成了数据审计、SQL 分析和四页 Power BI 报表。
 
 ## 数据来源
 
@@ -24,7 +24,7 @@
 
 ## Power BI 报表
 
-打开 [`powerbi/B2B_Parts_Demand_Overview.pbix`](powerbi/B2B_Parts_Demand_Overview.pbix)。第一页“需求总览”展示四个核心指标、72 个月的订单趋势和 13 个地区的订单分布；第二页“需求集中度”展示客户与物料出现频次的前三项占比及前十名排名；第三页“再次请求同一物料”展示客户—物料组合的重复出现和按客户订单数分组的结果。每页均注明数据口径。报表只载入汇总表，没有载入原始 CSV 明细。
+打开 [`powerbi/B2B_Parts_Demand_Overview.pbix`](powerbi/B2B_Parts_Demand_Overview.pbix)。第一页“需求总览”展示四个核心指标、72 个月的订单趋势和 13 个地区的订单分布；第二页“需求集中度”展示客户与物料出现频次的前三项占比及前十名排名；第三页“再次请求同一物料”展示客户—物料组合的重复出现和按客户订单数分组的结果；第四页“客户之间的差异”展示每位客户的再次出现占比及客户中位数。每页均注明数据口径。报表只载入汇总表，没有载入原始 CSV 明细。
 
 这里的“再次出现占比”是 **客户与物料组合** 在至少两个不同的匿名日期出现的比例，不是客户留存率。地区图的“订单数”按地区分别去重；月度图按匿名月份分别去重。由于缺少数量与订单金额，本报表不展示采购量、销售额或采购额。
 
@@ -35,12 +35,12 @@ node scripts/build_database.mjs data/raw data/b2b.sqlite
 node scripts/export_powerbi_data.mjs data/b2b.sqlite data/reporting
 ```
 
-导出脚本运行 [`sql/03_powerbi_views.sql`](sql/03_powerbi_views.sql)、[`sql/04_demand_views.sql`](sql/04_demand_views.sql) 和 [`sql/05_reorder_views.sql`](sql/05_reorder_views.sql)。报表使用 `overview.csv`、`monthly.csv`、`region.csv`、`concentration.csv`、`item_demand.csv`、`top_customers.csv`、`reorder_summary.csv` 和 `reorder_order_bands.csv`；脚本还导出完整客户再购表和地区再购表供进一步分析。若在另一台电脑刷新，先将 Power BI 的 CSV 来源路径改为那台电脑的 `data/reporting/`。本地数据库及 CSV 已被 Git 忽略。
+导出脚本运行 [`sql/03_powerbi_views.sql`](sql/03_powerbi_views.sql)、[`sql/04_demand_views.sql`](sql/04_demand_views.sql)、[`sql/05_reorder_views.sql`](sql/05_reorder_views.sql) 和 [`sql/06_customer_distribution.sql`](sql/06_customer_distribution.sql)。报表使用 `overview.csv`、`monthly.csv`、`region.csv`、`concentration.csv`、`item_demand.csv`、`top_customers.csv`、`reorder_summary.csv`、`reorder_order_bands.csv`、`customer_repeat_spread.csv`、`customer_repeat_cards.csv` 和 `customer_repeat_histogram.csv`；脚本还导出完整客户再购表和地区再购表供进一步分析。若在另一台电脑刷新，先将 Power BI 的 CSV 来源路径改为那台电脑的 `data/reporting/`。本地数据库及 CSV 已被 Git 忽略。
 
 ## 下一步
 
 1. 进一步核实完全相同行的业务含义；在得到来源说明前，继续保留原始行和来源位置。
-2. 在[客户再次请求分析](docs/customer-reordering.md)的口径下，探索客户层级差异，并注意观察期和订单数带来的机会差异。
+2. 根据[客户差异分析](docs/customer-differences.md)，进一步检查订单数与观察期对客户指标的影响；这些分组仅用于描述，不作因果解释。
 3. 用[面试介绍与常见追问](docs/interview-brief.md)说明项目问题、结果和局限；不要把出现频次说成采购数量或金额。
 
 原始 CSV 保存在本地分析环境中。本仓库通过 Zenodo 链接提供数据来源。

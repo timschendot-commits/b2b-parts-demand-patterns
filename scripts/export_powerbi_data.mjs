@@ -14,6 +14,7 @@ const database = new DatabaseSync(databasePath);
 const sql = fs.readFileSync(new URL('../sql/03_powerbi_views.sql', import.meta.url), 'utf8');
 const demandSql = fs.readFileSync(new URL('../sql/04_demand_views.sql', import.meta.url), 'utf8');
 const reorderSql = fs.readFileSync(new URL('../sql/05_reorder_views.sql', import.meta.url), 'utf8');
+const customerDistributionSql = fs.readFileSync(new URL('../sql/06_customer_distribution.sql', import.meta.url), 'utf8');
 fs.mkdirSync(outputDirectory, { recursive: true });
 
 function writeCsv(filename, rows) {
@@ -35,6 +36,7 @@ try {
   database.exec(sql);
   database.exec(demandSql);
   database.exec(reorderSql);
+  database.exec(customerDistributionSql);
   writeCsv('overview.csv', database.prepare('SELECT * FROM powerbi_overview').all());
   writeCsv('monthly.csv', database.prepare('SELECT * FROM powerbi_monthly').all());
   writeCsv('region.csv', database.prepare('SELECT * FROM powerbi_region').all());
@@ -45,6 +47,9 @@ try {
   writeCsv('reorder_region.csv', database.prepare('SELECT * FROM powerbi_reorder_region').all());
   writeCsv('reorder_summary.csv', database.prepare('SELECT * FROM powerbi_reorder_summary').all());
   writeCsv('reorder_order_bands.csv', database.prepare('SELECT * FROM powerbi_reorder_order_bands').all());
+  writeCsv('customer_repeat_spread.csv', database.prepare('SELECT * FROM powerbi_customer_repeat_spread').all());
+  writeCsv('customer_repeat_cards.csv', database.prepare('SELECT * FROM powerbi_customer_repeat_cards').all());
+  writeCsv('customer_repeat_histogram.csv', database.prepare('SELECT * FROM powerbi_customer_repeat_histogram').all());
 } finally {
   database.close();
 }
