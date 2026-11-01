@@ -22,7 +22,7 @@ node scripts/rebuild_project.mjs --no-download
 
 ## Power BI
 
-打开 [`powerbi/B2B_Parts_Demand_Overview.pbix`](../powerbi/B2B_Parts_Demand_Overview.pbix)即可查看已保存的四页报表快照。报表通过本地汇总 CSV 导入，不连接 Zenodo 实时数据。若要在另一台电脑或另一个路径刷新，在 Power BI Desktop 的 Power Query 中把各查询的 CSV `Source` 路径改为本机仓库下的 `data/reporting/` 对应文件，然后点击“刷新”并保存。**只运行重建脚本不会自动改写 PBIX 内保存的数据。**
+打开 [`powerbi/B2B_Parts_Demand_Overview.pbix`](../powerbi/B2B_Parts_Demand_Overview.pbix)即可查看已保存的四页双语报表快照。报表通过本地汇总 CSV 导入，不连接 Zenodo 实时数据。当前 PBIX 的 11 个 CSV 查询仍指向制作时的本地输出目录；本机原路径存在，已在 Power BI 中执行一次刷新。若在另一台电脑或移动仓库后刷新，先运行重建脚本，再在 Power BI Desktop 的 Power Query 中把各查询的 CSV `Source` 路径改为新仓库下 `data/reporting/` 对应文件，点击“关闭并应用”、刷新并保存。**只运行重建脚本不会自动改写 PBIX 内保存的数据。**
 
 ## 单项核查
 
