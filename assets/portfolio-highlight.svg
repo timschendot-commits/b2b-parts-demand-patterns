@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Three views of repeat industrial-parts requests</title>
+  <desc id="desc">The pooled customer-item-pair repeat share is 47.47 percent, 41.87 percent after excluding the ten customers with the most orders, and the median customer-level share is 20.92 percent. Each measure has a different weighting or population.</desc>
+  <rect width="1200" height="620" fill="#101a2d"/>
+  <rect x="46" y="43" width="7" height="31" rx="3" fill="#5ed6c2"/>
+  <text x="70" y="66" fill="#5ed6c2" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2">B2B PARTS · DATA STORY</text>
+  <text x="48" y="132" fill="#f5f8ff" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="700">One dataset. Three views of repeat requests.</text>
+  <text x="49" y="168" fill="#a9bad0" font-family="Segoe UI, Arial, sans-serif" font-size="19">A customer–item pair repeats when it appears on at least two different anonymized dates.</text>
+
+  <rect x="47" y="207" width="754" height="304" rx="18" fill="#19263d" stroke="#334765"/>
+  <text x="76" y="244" fill="#a9bad0" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="1.2">REPEAT SHARE · 0–100% SCALE</text>
+  <line x1="306" y1="271" x2="306" y2="468" stroke="#3b4e69"/>
+  <line x1="515" y1="271" x2="515" y2="468" stroke="#3b4e69" stroke-dasharray="3 6"/>
+  <line x1="723" y1="271" x2="723" y2="468" stroke="#3b4e69" stroke-dasharray="3 6"/>
+  <text x="304" y="484" fill="#8195ad" font-family="Segoe UI, Arial, sans-serif" font-size="13">0</text>
+  <text x="503" y="484" fill="#8195ad" font-family="Segoe UI, Arial, sans-serif" font-size="13">50</text>
+  <text x="706" y="484" fill="#8195ad" font-family="Segoe UI, Arial, sans-serif" font-size="13">100%</text>
+
+  <text x="77" y="296" fill="#f5f8ff" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="600">All pairs</text>
+  <text x="77" y="317" fill="#9cafc7" font-family="Segoe UI, Arial, sans-serif" font-size="14">73,020 pairs · pooled</text>
+  <rect x="306" y="278" width="417" height="35" rx="8" fill="#263751"/>
+  <rect x="306" y="278" width="198" height="35" rx="8" fill="#5ed6c2"/>
+  <text x="515" y="303" fill="#f5f8ff" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">47.47%</text>
+
+  <text x="77" y="375" fill="#f5f8ff" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="600">Without top 10</text>
+  <text x="77" y="396" fill="#9cafc7" font-family="Segoe UI, Arial, sans-serif" font-size="14">49,364 pairs · pooled</text>
+  <rect x="306" y="357" width="417" height="35" rx="8" fill="#263751"/>
+  <rect x="306" y="357" width="175" height="35" rx="8" fill="#70a8ef"/>
+  <text x="492" y="382" fill="#f5f8ff" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">41.87%</text>
+
+  <text x="77" y="454" fill="#f5f8ff" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="600">Typical customer</text>
+  <text x="77" y="475" fill="#9cafc7" font-family="Segoe UI, Arial, sans-serif" font-size="14">238 customer shares · median</text>
+  <rect x="306" y="436" width="417" height="35" rx="8" fill="#263751"/>
+  <rect x="306" y="436" width="87" height="35" rx="8" fill="#ffbd70"/>
+  <text x="404" y="461" fill="#f5f8ff" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">20.92%</text>
+
+  <rect x="826" y="207" width="327" height="304" rx="18" fill="#eaf8f5"/>
+  <text x="852" y="251" fill="#0b5d53" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="1">THE ANALYTICAL POINT</text>
+  <text x="852" y="298" fill="#12243a" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">The headline KPI</text>
+  <text x="852" y="330" fill="#12243a" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">is not the typical</text>
+  <text x="852" y="362" fill="#12243a" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">customer's rate.</text>
+  <line x1="852" y1="389" x2="1125" y2="389" stroke="#b7d6d0"/>
+  <text x="852" y="422" fill="#395667" font-family="Segoe UI, Arial, sans-serif" font-size="17">Check segment mix and</text>
+  <text x="852" y="447" fill="#395667" font-family="Segoe UI, Arial, sans-serif" font-size="17">observation opportunity</text>
+  <text x="852" y="472" fill="#395667" font-family="Segoe UI, Arial, sans-serif" font-size="17">before taking action.</text>
+
+  <text x="49" y="551" fill="#b8c7d9" font-family="Segoe UI, Arial, sans-serif" font-size="16">The top 10 customers are ranked by distinct orders. Leave-out results are descriptive, not causal.</text>
+  <text x="49" y="579" fill="#8497b0" font-family="Segoe UI, Arial, sans-serif" font-size="15">These are request-frequency measures—not retention, units purchased, revenue, or inventory demand.</text>
+</svg>

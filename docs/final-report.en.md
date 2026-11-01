@@ -15,6 +15,8 @@ The unit of analysis matters. A source line is neither a whole order nor a purch
 | Repeated requests are common but uneven | 34,664 of 73,020 customer–item pairs, or 47.47%, appear on different dates | This is a pair-level measure, not customer retention. |
 | The typical customer differs from the pooled rate | Median customer-level repeat-pair share: 20.92% across 238 customers; 40.37% among 134 customers with at least 10 orders | The 10-order threshold is descriptive; differences do not establish causation. |
 
+A sensitivity check removes the 10 customers with the most distinct orders and recomputes the pooled repeat-pair share: 20,671 of 49,364 remaining pairs, or **41.87%**. Those 10 customers contribute 58.96% of orders. The change from 47.47% is evidence that the pooled result depends on customer mix, not evidence that order volume causes repeat requests. See the [portfolio case study](portfolio-case-study.md) and [SQL check](../sql/08_portfolio_sensitivity.sql).
+
 Regional totals also depend heavily on the sampled customer base. North America has 5,189 distinct orders from 7 customers, while Southern Europe has 4,147 from 102. These figures cannot be read as market-size rankings.
 
 ## Business use and limitations

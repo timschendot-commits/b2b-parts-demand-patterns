@@ -12,6 +12,8 @@ I used an anonymized industrial-parts dataset to build a reproducible B2B demand
 
 **Why is the median customer-level share 20.92%?** The overall 47.47% pools all pairs, giving more weight to customers with many item pairs. The median first calculates a share for each of the 238 customers and then finds the midpoint.
 
+**What is the project's most interesting finding?** The 47.47% pooled figure is much higher than the 20.92% median customer-level figure. A sensitivity check excludes the 10 customers with the most orders and finds a 41.87% pooled rate among the remaining customers. This makes the weighting and customer mix visible; it does not establish a causal effect.
+
 **Can this report recommend inventory levels?** No. The dataset lacks quantities, inventory, lead times, and suppliers. It identifies patterns worth investigating with operational data.
 
 ## 中文面试说明
@@ -27,6 +29,8 @@ I used an anonymized industrial-parts dataset to build a reproducible B2B demand
 **47.47% 是留存率吗？** 不是。分母是 73,020 个不同客户—物料组合，分子是其中在至少两个不同匿名日期出现的 34,664 个组合。
 
 **为什么总体是 47.47%，客户中位数却是 20.92%？** 前者把所有客户—物料组合放在一起计算，组合多的客户权重更大；后者先算每位客户的比例，再取 238 位客户的中位数。只看至少 10 单的 134 位客户，中位数是 40.37%。详见[客户差异分析](customer-differences.md)。
+
+**这个项目最值得讲的发现是什么？** 47.47% 的合计比例明显高于 20.92% 的客户中位数。排除订单最多的前 10 位客户后，剩余客户的合计比例为 41.87%。这个核查提示我们先看分母和客户结构，不能把总体数值当作典型客户，也不能据此推断因果关系。
 
 **为什么保留重复行？** 六份 CSV 中有 44,781 个额外重复行，但数据没有数量或唯一明细 ID，无法确认这些行的业务含义。项目保留原始行，用不同订单和不同日期的计数方式避免它们误导主要指标。详见[重复行核对](duplicate-audit.md)。
 

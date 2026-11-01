@@ -31,7 +31,10 @@ node scripts/prepare_dataset.mjs data/raw --verify-only
 node scripts/audit_exact_duplicates.mjs data/raw
 node scripts/run_checks.mjs data/b2b.sqlite
 node scripts/run_checks.mjs data/b2b.sqlite sql/07_summary_checks.sql
+node scripts/run_checks.mjs data/b2b.sqlite sql/08_portfolio_sensitivity.sql
 node scripts/validate_project.mjs
 ```
 
 `sql/07_summary_checks.sql` 展示匿名年份、地区、物料前五名和集中度指标。其输出是样本描述，不能直接解释为真实历年趋势、地区市场规模或采购量。
+
+`sql/08_portfolio_sensitivity.sql` 检查排除订单最多的 10 位客户后，客户—物料组合的合计再次出现比例如何变化。结果只是客户构成敏感性核查，不是因果估计。

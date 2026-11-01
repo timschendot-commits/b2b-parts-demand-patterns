@@ -1,47 +1,57 @@
 # B2B Parts Demand Patterns
 
-An AI-assisted, reproducible Power BI portfolio project based on the anonymized [B2B-Parts-Rec v1](https://zenodo.org/records/19492687) dataset. It examines customer concentration, item-request frequency, and repeated requests for the same item. The four-page report uses distinct orders and customer–item pairs rather than treating CSV rows as orders or quantities.
+**An AI-assisted, reproducible SQL + Power BI portfolio case study** using the anonymized [B2B-Parts-Rec v1](https://zenodo.org/records/19492687) dataset.
 
-**At a glance:** The top 10 customers account for 58.96% of distinct orders, while the top 10 items account for just 2.52% of distinct order–item appearances. Overall, 47.47% of customer–item pairs appear on at least two different anonymized dates; the median customer-level share is 20.92%. These are descriptive patterns, not revenue, retention, or inventory measures. See the [English project summary](docs/final-report.en.md), [Power BI report](powerbi/B2B_Parts_Demand_Overview.pbix), and [interview brief](docs/interview-brief.md).
+![Three views of repeat industrial-parts requests](assets/portfolio-highlight.svg)
 
-## 中文说明
+## The story in 30 seconds
 
-用公开的匿名工业零部件采购数据，研究**订单由谁产生、物料需求有多分散、哪些客户会再次请求同一物料**。这是一个可复现的商业分析作品集项目：从原始文件校验、数据审计、SQL 汇总到四页 Power BI 报表，均有明确的数据口径。
+**Business question:** Are industrial-parts requests concentrated among a few customers, and does the headline repeat-request rate describe a typical customer?
 
-## 核心发现
+**Finding:** The top 10 customers generate **58.96% of distinct orders**. Across all 73,020 customer–item pairs, **47.47%** appear on at least two different anonymized dates. Yet the **median customer-level share is 20.92%**. Excluding the 10 customers with the most orders lowers the pooled pair rate to **41.87%**. The overall KPI therefore needs customer-level context before anyone interprets it as typical customer behavior.
 
-| 观察 | 已核对的结果 | 应怎样理解 |
-| --- | ---: | --- |
-| 客户集中度 | 前 10 位客户占 58.96% 的不同订单 | 对少数客户的订单依赖较高；这不是营收占比 |
-| 物料分散度 | 前 10 个物料只占 2.52% 的不同订单—物料组合 | 请求分散在许多匿名物料编码上；这不是采购件数 |
-| 同一物料再次出现 | 47.47% 的客户—物料组合出现在至少两个不同匿名日期 | 按组合汇总的比例；不是客户留存率 |
-| 客户之间的差异 | 全部客户的客户比例中位数为 20.92%；至少 10 单客户为 40.37% | 典型客户与合计比例不同；分组差异不能解释成因果关系 |
+**Business use:** Investigate dependence on high-order customers and compare repeat-request patterns among customers with similar observation opportunities. These results identify questions for a procurement team; the dataset does not contain the quantities, inventory, supplier, or cost data needed to set stock levels or claim savings.
 
-完整解释、适用范围和可执行的后续业务问题见[项目结论](docs/final-report.md)。
+Read the [portfolio case study](docs/portfolio-case-study.md) for the evidence, method, interpretation, and a short Chinese summary.
 
-## 查看成果
+## What the project demonstrates
 
-- [四页 Power BI 报表](powerbi/B2B_Parts_Demand_Overview.pbix)：需求总览、需求集中度、再次请求同一物料、客户之间的差异。报表是已导入汇总数据的快照，不是实时数据流。
-- [指标字典](docs/kpi-dictionary.md)：逐项列出分子、分母、数据粒度和不能做的推断。
-- [数据审计](docs/data-audit.md)与[重复行核对](docs/duplicate-audit.md)：交代来源、字段、缺失、匿名时间和口径差异。
-- [面试说明](docs/interview-brief.md)：可以向招聘方准确介绍项目及 AI 的协助范围。
-- [英文项目摘要](docs/final-report.en.md)与[中英双语报表文案](docs/dashboard-bilingual-copy.md)：用于英文或双语面试展示。
-- [复现与刷新说明](docs/reproduce.md)：从 Zenodo 校验原始文件，到重建汇总数据和刷新 PBIX。
+| Skill | Evidence in this repository |
+| --- | --- |
+| Data quality and grain | [Audit](docs/data-audit.md) distinguishes 285,941 source lines from 24,532 distinct orders; [duplicate review](docs/duplicate-audit.md) explains why 44,781 extra identical lines were retained. |
+| SQL analysis | [Views](sql/) define order, order–item, and customer–item units; the [sensitivity query](sql/08_portfolio_sensitivity.sql) tests how the pooled result changes without the top 10 customers. |
+| BI communication | The [four-page Power BI report](powerbi/B2B_Parts_Demand_Overview.pbix) covers overview, concentration, repeat requests, and customer variation with English and Chinese labels. |
+| Reproducibility | [One-command rebuild](docs/reproduce.md) verifies Zenodo file sizes and MD5 values, creates local SQLite and reporting extracts, then checks key results. |
+| Analytical judgment | The [KPI dictionary](docs/kpi-dictionary.md) names every denominator and separates request frequency from retention, purchased units, revenue, and inventory demand. |
 
-## 一条命令重建数据
+The implementation used AI assistance. The repository makes the definitions, SQL, automated checks, and limitations inspectable, so the analytical reasoning can be reviewed independently.
 
-需要 Node.js 24 或更新版本。在仓库根目录运行：
+## Explore the work
+
+1. **Start with the [case study](docs/portfolio-case-study.md)** for the main finding and decision boundary.
+2. **Open the [Power BI report](powerbi/B2B_Parts_Demand_Overview.pbix)** to explore the four report pages. It is a saved import snapshot, not a live data feed.
+3. **Inspect the [sensitivity query](sql/08_portfolio_sensitivity.sql)** and [KPI dictionary](docs/kpi-dictionary.md) to check the figures.
+4. **Use the [interview brief](docs/interview-brief.md)** for a concise English or Chinese explanation.
+
+## Rebuild and verify
+
+Install Node.js 24 or newer, then run from the repository root:
 
 ```sh
 node scripts/rebuild_project.mjs
+node scripts/run_checks.mjs data/b2b.sqlite sql/08_portfolio_sensitivity.sql
 ```
 
-首次运行从固定的 [Zenodo v1 记录](https://zenodo.org/records/19492687)下载六份 CSV（共约 193.5 MB），逐份核对大小和 MD5，然后建立本地 SQLite 数据库、导出 13 份 Power BI 汇总 CSV，并检查关键指标。若原始文件已经保存在 `data/raw/`，可运行 `node scripts/rebuild_project.mjs --no-download`。详细步骤见[复现与刷新说明](docs/reproduce.md)。
+The first command downloads the six fixed-version Zenodo CSVs if needed (about 193.5 MB total), checks file sizes and MD5 values, creates `data/b2b.sqlite`, exports 13 local Power BI reporting CSVs, and validates core figures. See [reproduction and refresh instructions](docs/reproduce.md) before refreshing the PBIX on another computer.
 
-`data/`、数据库和所有 CSV 都被 Git 忽略；**本仓库不包含原始 CSV**。PBIX 中保存的是报表所需的已导入数据。换一台电脑刷新时，需要在 Power Query 中把 CSV 来源重新指向该电脑的 `data/reporting/`。
+`data/`, the database, and all CSV files are ignored by Git. **No original CSV is uploaded to this repository.** The PBIX contains imported reporting data, so treat it as a report artifact when sharing.
 
-## 数据与许可
+## Data source and interpretation
 
-数据来源：Francesca Stefano、Francesco Zanichelli、Dietmar Jannach，[B2B-Parts-Rec v1](https://zenodo.org/records/19492687)，DOI [10.5281/zenodo.19492687](https://doi.org/10.5281/zenodo.19492687)。Zenodo 记录的许可元数据为 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)；作者的[数据字典与研究代码](https://github.com/Infraste03/B2B-Parts-Rec)另在 GitHub 提供。本项目从 Zenodo 原始 CSV 生成本地汇总，未公开再分发六份原始文件。
+Source: Francesca Stefano, Francesco Zanichelli, and Dietmar Jannach, [B2B-Parts-Rec v1](https://zenodo.org/records/19492687), [DOI 10.5281/zenodo.19492687](https://doi.org/10.5281/zenodo.19492687). The Zenodo record lists [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the original CSVs are not redistributed here.
 
-数据没有采购数量、订单金额、货币、交付、库存和供应商字段；`PRICE_EXACT` 是单价。请求日期经过匿名化平移，因此图上的年份是**匿名时间轴**，不能直接与真实年份的市场事件对应。详见[项目结论](docs/final-report.md)。
+Request dates were shifted for anonymity. A plotted year is a dataset timeline, not a real-world market year. `PRICE_EXACT` is a unit price, and the data has no order quantity, order value, currency, inventory, delivery, or supplier fields. The project therefore does not estimate purchasing volume, spend, stock policy, or supplier performance.
+
+## 中文摘要
+
+这是一份用匿名工业零部件数据制作的 SQL 与 Power BI 作品集案例。亮点是**核对指标口径后，再检验总体数字是否代表典型客户**：全部客户—物料组合的再次出现比例为 47.47%，但逐位客户计算后的中位数仅为 20.92%；去掉订单最多的前 10 位客户后，合计比例为 41.87%。这不是客户留存率，也不能直接用于补货。项目借助 AI 实施，并公开分析方法、核查脚本、报表和局限说明。原始 CSV 没有上传 GitHub。
